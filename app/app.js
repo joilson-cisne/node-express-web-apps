@@ -1,8 +1,8 @@
-var express = require('express');
+let express = require('express');
 
-var app = express();
+let app = express();
 
-var port = process.env.PORT || 5000;
+let port = process.env.PORT || 5000;
 
 app.use(express.static('public'));
 app.use(express.static('src/views'));
@@ -15,6 +15,6 @@ app.get('/books', (req, res) => {
     res.send('Hello Books');
 });
 
-app.listen(port, (err) => {
+app.listen(port, () => {
     console.log(`running server on port ${port}...`);
 });
