@@ -1,0 +1,35 @@
+{
+    "extends": "google",
+
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es6": true,
+        "node": true
+    },
+
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "sourceType": "module"
+    },
+    
+    "rules": {
+        "no-this-before-super": "warn",
+        "no-undef": "warn",
+        "no-unreachable": "warn",
+        "constructor-super": "warn",
+        "valid-typeof": "warn",
+        "no-const-assign": "error",
+        "new-parens": "error",
+        "prefer-arrow-callback": "error",
+        "arrow-spacing": "error",
+        "no-mixed-spaces-and-tabs": "error",
+        "space-infix-ops": "error",
+        "indent": "error",
+        "operator-linebreak": "error",
+        "linebreak-style": "error",
+        "newline-per-chained-call": "error"
+    }
+}
