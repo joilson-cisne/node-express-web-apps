@@ -1,6 +1,6 @@
 import express from 'express';
 
-const bookRouter = express.Router();
+const booksRouter = express.Router();
 
 const books = [
     {
@@ -23,9 +23,9 @@ const books = [
     },
 ];
 
-bookRouter.route('/')
+booksRouter.route('/')
     .get((req, res) => {
-        res.render('books', {
+        res.render('book-list-view', {
             title: 'Books',
             nav: [
                 {link: '/Books', text: 'Books'},
@@ -35,9 +35,17 @@ bookRouter.route('/')
         });
     });
 
-bookRouter.route('/single')
+booksRouter.route('/:id')
     .get((req, res) => {
-        res.send('Hello Single Book!');
+        const id = req.params.id;
+        res.render('book-view', {
+            title: 'Books',
+            nav: [
+                {link: '/Books', text: 'Books'},
+                {link: '/Authors', text: 'Authors'},
+            ],
+            book: books[id],
+        });
     });
 
-module.exports = bookRouter;
+module.exports = booksRouter;

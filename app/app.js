@@ -1,5 +1,5 @@
 import express from 'express';
-import bookRouter from './src/routes/bookRoutes';
+import booksRouter from './src/routes/books-router';
 
 let app = express();
 
@@ -10,7 +10,7 @@ app.set('views', './src/views');
 
 app.set('view engine', 'ejs');
 
-app.use('/Books', bookRouter);
+app.use('/Books', booksRouter);
 
 app.get('/', (req, res) => {
     res.render('index', {
