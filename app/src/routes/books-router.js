@@ -1,49 +1,50 @@
-import express from 'express';
+import {Router} from 'express';
+import {
+    MongoClient,
+    ObjectID,
+} from 'mongodb';
 
-const booksRouter = express.Router();
+const booksRouter = new Router();
 
-const books = [
-    {
-        title: 'This is My title 1',
-        genre: 'Fiction 1',
-        author: 'Lev Tolstoy 1',
-        read: false,
-    },
-    {
-        title: 'This is My title 2',
-        genre: 'Fiction 2',
-        author: 'Lev Tolstoy 2',
-        read: false,
-    },
-    {
-        title: 'This is My title 3',
-        genre: 'Fiction 3',
-        author: 'Lev Tolstoy 3',
-        read: false,
-    },
-];
-
-const createBooksRouter = (nav) => {
+export default (nav) => {
     booksRouter.route('/')
         .get((req, res) => {
-            res.render('book-list-view', {
-                title: 'Books',
-                nav: nav,
-                books: books,
+            let url = 'mongodb://localhost:27017/library-app';
+
+            MongoClient.connect(url, (err, db) => {
+                let collection = db.collection('books');
+
+                collection.find({}).toArray(
+                    (err, results) => {
+                        res.render('book-list-view', {
+                            title: 'Books',
+                            nav: nav,
+                            books: results,
+                        });
+                    }
+                );
             });
         });
 
     booksRouter.route('/:id')
         .get((req, res) => {
-            const id = req.params.id;
-            res.render('book-view', {
-                title: 'Books',
-                nav: nav,
-                book: books[id],
+            let id = new ObjectID(req.params.id);
+            let url = 'mongodb://localhost:27017/library-app';
+
+            MongoClient.connect(url, (err, db) => {
+                let collection = db.collection('books');
+
+                collection.findOne({_id: id},
+                    (err, results) => {
+                        res.render('book-view', {
+                            title: 'Books',
+                            nav: nav,
+                            book: results,
+                        });
+                    }
+                );
             });
         });
 
     return booksRouter;
 };
-
-module.exports = createBooksRouter;

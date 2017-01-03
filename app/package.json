@@ -14,7 +14,9 @@
     "ejs": "^2.5.5",
     "express": "^4.14.0",
     "express-handlebars": "^3.0.0",
-    "jade": "^1.11.0"
+    "jade": "^1.11.0",
+    "mongodb": "^2.2.19",
+    "mssql": "^3.3.0"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",

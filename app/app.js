@@ -1,5 +1,6 @@
 import express from 'express';
-import createBooksRouter from './src/routes/books-router';
+import BooksRouter from './src/routes/books-router';
+import AdminRouter from './src/routes/admin-router';
 
 let app = express();
 
@@ -15,9 +16,11 @@ const nav = [
     {link: '/Authors', text: 'Authors'},
 ];
 
-const booksRouter = createBooksRouter(nav);
+const booksRouter = new BooksRouter(nav);
+const adminRouter = new AdminRouter(nav);
 
 app.use('/Books', booksRouter);
+app.use('/Admin', adminRouter);
 
 app.get('/', (req, res) => {
     res.render('index', {
