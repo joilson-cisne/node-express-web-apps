@@ -1,5 +1,5 @@
 import express from 'express';
-import booksRouter from './src/routes/books-router';
+import createBooksRouter from './src/routes/books-router';
 
 let app = express();
 
@@ -10,15 +10,19 @@ app.set('views', './src/views');
 
 app.set('view engine', 'ejs');
 
+const nav = [
+    {link: '/Books', text: 'Books'},
+    {link: '/Authors', text: 'Authors'},
+];
+
+const booksRouter = createBooksRouter(nav);
+
 app.use('/Books', booksRouter);
 
 app.get('/', (req, res) => {
     res.render('index', {
         title: 'Hello from render',
-        nav: [
-            {link: '/Books', text: 'Books'},
-            {link: '/Authors', text: 'Authors'},
-        ],
+        nav: nav,
     });
 });
 

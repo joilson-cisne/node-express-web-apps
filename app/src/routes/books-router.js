@@ -23,29 +23,27 @@ const books = [
     },
 ];
 
-booksRouter.route('/')
-    .get((req, res) => {
-        res.render('book-list-view', {
-            title: 'Books',
-            nav: [
-                {link: '/Books', text: 'Books'},
-                {link: '/Authors', text: 'Authors'},
-            ],
-            books: books,
+const createBooksRouter = (nav) => {
+    booksRouter.route('/')
+        .get((req, res) => {
+            res.render('book-list-view', {
+                title: 'Books',
+                nav: nav,
+                books: books,
+            });
         });
-    });
 
-booksRouter.route('/:id')
-    .get((req, res) => {
-        const id = req.params.id;
-        res.render('book-view', {
-            title: 'Books',
-            nav: [
-                {link: '/Books', text: 'Books'},
-                {link: '/Authors', text: 'Authors'},
-            ],
-            book: books[id],
+    booksRouter.route('/:id')
+        .get((req, res) => {
+            const id = req.params.id;
+            res.render('book-view', {
+                title: 'Books',
+                nav: nav,
+                book: books[id],
+            });
         });
-    });
 
-module.exports = booksRouter;
+    return booksRouter;
+};
+
+module.exports = createBooksRouter;
