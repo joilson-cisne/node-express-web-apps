@@ -1,14 +1,15 @@
-let express = require('express');
+import express from 'express';
 
 let app = express();
 
 let port = process.env.PORT || 5000;
 
 app.use(express.static('public'));
-app.use(express.static('src/views'));
+app.set('views', './src/views');
+app.set('view engine', 'jade');
 
 app.get('/', (req, res) => {
-    res.send('Hello World');
+    res.render('index');
 });
 
 app.get('/books', (req, res) => {
