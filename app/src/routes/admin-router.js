@@ -8,12 +8,14 @@ const books = [
         title: 'My Little Book 1',
         genre: 'Fiction 1',
         author: 'Lev Tolstoy 1',
+        bookId: 968,
         read: false,
     },
     {
         title: 'This is My title 2',
         genre: 'Fiction 2',
         author: 'Lev Tolstoy 2',
+        bookId: 98233,
         read: false,
     },
     {

@@ -7,7 +7,7 @@ const goodReadService = () => {
     const getBookById = (id, cb) => {
         const options = {
             host: 'www.goodreads.com',
-            path: '/book/show/968?format=xml&key=<GOODREADS_API_KEY>',
+            path: `/book/show/${id}?format=xml&key=<GOODREADS_API_KEY>`,
         };
 
         const callback = (response) => {
@@ -17,7 +17,7 @@ const goodReadService = () => {
                 output += chunk;
             });
 
-            response.on('end', (chunk) => {
+            response.on('end', () => {
                 parser.parseString(output, (err, result) => {
                     cb(null, result.GoodreadsResponse.book);
                 });

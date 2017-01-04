@@ -6,9 +6,9 @@ import {
 
 const BooksController = (bookService, nav) => {
     const middleware = (req, res, next) => {
-        // if (!req.user) {
-        //     res.redirect('/');
-        // }
+        if (!req.user) {
+            res.redirect('/');
+        }
         next();
     };
 
@@ -39,14 +39,26 @@ const BooksController = (bookService, nav) => {
 
             collection.findOne({_id: id},
                 (err, results) => {
-                    bookService.getBookById(results.bookId, (err, book) => {
-                        results.book = book;
+                    if (results.bookId) {
+                        bookService.getBookById(results.bookId, (err, book) => {
+                            results.book = book;
+                            res.render('book-view', {
+                                title: 'Books',
+                                nav: nav,
+                                book: results,
+                            });
+                        });
+                    } else {
+                        results.book = {
+                            description: 'No description...',
+                            image_url: 'http://lorempixel.com/100/100/',
+                        };
                         res.render('book-view', {
                             title: 'Books',
                             nav: nav,
                             book: results,
                         });
-                    });
+                    }
                 }
             );
         });
