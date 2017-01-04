@@ -1,12 +1,11 @@
 import {Router} from 'express';
-import {
-    MongoClient,
-    ObjectID,
-} from 'mongodb';
+import BooksController from '../controllers/books-controller';
 
 const router = new Router();
 
 export default (nav) => {
+    let booksController = new BooksController(null, nav);
+
     router.use((req, res, next) => {
         if (!req.user) {
             res.redirect('/');
@@ -15,43 +14,10 @@ export default (nav) => {
     });
 
     router.route('/')
-        .get((req, res) => {
-            let url = 'mongodb://localhost:27017/library-app';
-
-            MongoClient.connect(url, (err, db) => {
-                let collection = db.collection('books');
-
-                collection.find({}).toArray(
-                    (err, results) => {
-                        res.render('book-list-view', {
-                            title: 'Books',
-                            nav: nav,
-                            books: results,
-                        });
-                    }
-                );
-            });
-        });
+        .get(booksController.getAll);
 
     router.route('/:id')
-        .get((req, res) => {
-            let id = new ObjectID(req.params.id);
-            let url = 'mongodb://localhost:27017/library-app';
-
-            MongoClient.connect(url, (err, db) => {
-                let collection = db.collection('books');
-
-                collection.findOne({_id: id},
-                    (err, results) => {
-                        res.render('book-view', {
-                            title: 'Books',
-                            nav: nav,
-                            book: results,
-                        });
-                    }
-                );
-            });
-        });
+        .get(booksController.getById);
 
     return router;
 };
