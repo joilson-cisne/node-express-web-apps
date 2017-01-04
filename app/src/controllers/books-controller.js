@@ -5,6 +5,13 @@ import {
 
 
 const BooksController = (bookService, nav) => {
+    const middleware = (req, res, next) => {
+        if (!req.user) {
+            res.redirect('/');
+        }
+        next();
+    };
+
     const getAll = (req, res) => {
         let url = 'mongodb://localhost:27017/library-app';
 
@@ -45,6 +52,7 @@ const BooksController = (bookService, nav) => {
     return {
         getAll: getAll,
         getById: getById,
+        middleware: middleware,
     };
 };
 

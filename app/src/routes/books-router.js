@@ -6,12 +6,7 @@ const router = new Router();
 export default (nav) => {
     let booksController = new BooksController(null, nav);
 
-    router.use((req, res, next) => {
-        if (!req.user) {
-            res.redirect('/');
-        }
-        next();
-    });
+    router.use(booksController.middleware);
 
     router.route('/')
         .get(booksController.getAll);
