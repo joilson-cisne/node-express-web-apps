@@ -4,10 +4,17 @@ import {
     ObjectID,
 } from 'mongodb';
 
-const booksRouter = new Router();
+const router = new Router();
 
 export default (nav) => {
-    booksRouter.route('/')
+    router.use((req, res, next) => {
+        if (!req.user) {
+            res.redirect('/');
+        }
+        next();
+    });
+
+    router.route('/')
         .get((req, res) => {
             let url = 'mongodb://localhost:27017/library-app';
 
@@ -26,7 +33,7 @@ export default (nav) => {
             });
         });
 
-    booksRouter.route('/:id')
+    router.route('/:id')
         .get((req, res) => {
             let id = new ObjectID(req.params.id);
             let url = 'mongodb://localhost:27017/library-app';
@@ -46,5 +53,5 @@ export default (nav) => {
             });
         });
 
-    return booksRouter;
+    return router;
 };

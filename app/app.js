@@ -1,11 +1,13 @@
-import cookie from 'cookie-parser';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 import express from 'express';
-import passport from 'passport';
 import session from 'express-session';
 
 import adminRouter from './src/routes/admin-router';
 import authRouter from './src/routes/auth-router';
 import booksRouter from './src/routes/books-router';
+
+import configuratePassport from './src/config/passport';
 
 let app = express();
 
@@ -16,8 +18,14 @@ const nav = [
 ];
 
 app.use(express.static('public'));
-app.set('views', './src/views');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
+app.use(cookieParser());
+app.use(session({secret: 'library'}));
 
+configuratePassport(app);
+
+app.set('views', './src/views');
 app.set('view engine', 'ejs');
 
 app.use('/books', booksRouter(nav));
