@@ -39,10 +39,13 @@ const BooksController = (bookService, nav) => {
 
             collection.findOne({_id: id},
                 (err, results) => {
-                    res.render('book-view', {
-                        title: 'Books',
-                        nav: nav,
-                        book: results,
+                    bookService.getBookById(results.bookId, (err, book) => {
+                        results.book = book;
+                        res.render('book-view', {
+                            title: 'Books',
+                            nav: nav,
+                            book: results,
+                        });
                     });
                 }
             );

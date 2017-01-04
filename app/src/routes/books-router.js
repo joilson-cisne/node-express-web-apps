@@ -1,10 +1,11 @@
 import {Router} from 'express';
 import BooksController from '../controllers/books-controller';
+import BooksService from '../services/good-read-service';
 
 const router = new Router();
 
 export default (nav) => {
-    let booksController = new BooksController(null, nav);
+    let booksController = new BooksController(new BooksService(), nav);
 
     router.use(booksController.middleware);
 
