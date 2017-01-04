@@ -1,6 +1,30 @@
+import http from 'http';
+import {Parser} from 'xml2js';
+
+let parser = new Parser({explicitArray: false});
+
 const goodReadService = () => {
     const getBookById = (id, cb) => {
-        cb(null, {description: 'Our description!'});
+        const options = {
+            host: 'www.goodreads.com',
+            path: '/book/show/968?format=xml&key=<GOODREADS_API_KEY>',
+        };
+
+        const callback = (response) => {
+            let output = '';
+
+            response.on('data', (chunk) => {
+                output += chunk;
+            });
+
+            response.on('end', (chunk) => {
+                parser.parseString(output, (err, result) => {
+                    cb(null, result.GoodreadsResponse.book);
+                });
+            });
+        };
+
+        http.request(options, callback).end();
     };
 
     return {

@@ -6,9 +6,9 @@ import {
 
 const BooksController = (bookService, nav) => {
     const middleware = (req, res, next) => {
-        if (!req.user) {
-            res.redirect('/');
-        }
+        // if (!req.user) {
+        //     res.redirect('/');
+        // }
         next();
     };
 
